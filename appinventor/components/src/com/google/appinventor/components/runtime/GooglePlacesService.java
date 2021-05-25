@@ -31,17 +31,15 @@ import edu.mit.media.funf.json.IJsonObject;
 import edu.mit.media.funf.probe.builtin.ProbeKeys;
 
 @DesignerComponent(version = YaVersion.GPLACES_COMPONENT_VERSION,
-        description = "<p>A component that accesses the Google Places API given the user's current location, " +
-                "and returns a set of nearby places (see also OverpassPlacesService). " +
-                "It relies on the LocationProbeSensor and thus offers similar options, " +
-                "i.e., periodically get the user's location at a configurable time-interval, scanning period, " +
-                "and good-enough-accuracy. Subsequently, the component will get places nearby the user's location. " +
-                "(After the scanning period, the component will return the found location with the highest accuracy; " +
-                "ending early when finding a location with good-enough-accuracy.)</p>" +
-                "Additionally, one can specify a minimum-location-change property that will call the Places API" +
-                " only in case the user's location has changed significantly.</p>" +
-                "<p>One can specify the radius (in meters) around the user for which to return places.</p>",
-        category = ComponentCategory.CONNECTIVITY, nonVisible = true, iconName = "images/locationProbe.png", showOnPalette = true)
+        description = "<p>A component that (periodically) returns a set of nearby places using the Google Places API " +
+            "(see also OverpassPlacesService). " +
+            "It supports periodically getting the user's location (at a configurable time-interval), and" +
+            "a period for scanning (returning the location with highest accuracy found during the scan, " +
+            "or the first one with good-enough accuracy). After getting the location, " +
+            "the component will get nearby places based on the given radius.</p>" +
+            "You can also specify a minimum-location-change, where the Places API" +
+            " will only be called in case the user's location has changed significantly.</p>",
+        category = ComponentCategory.CONNECTIVITY, nonVisible = true, iconName = "images/googlePlaces.png")
 @SimpleObject
 @UsesLibraries(libraries = "google-maps-services-0.18.1.jar")
 public class GooglePlacesService extends PlacesWebService implements Callback<PlacesSearchResponse> {
@@ -79,26 +77,23 @@ public class GooglePlacesService extends PlacesWebService implements Callback<Pl
     }
 
     /**
-     * Returns the type of nearby places that should be returned. See
-     * https://developers.google.com/maps/documentation/places/web-service/supported_types
-     * for the list of supported types.
      *
      * @return placeType
      */
-    @SimpleProperty(description = "type of nearby places that should be returned. " +
-            "See https://developers.google.com/maps/documentation/places/web-service/supported_types " +
-            "for the list of supported types", category = PropertyCategory.BEHAVIOR)
+    @SimpleProperty
     public String PlaceType() {
         return placeType;
     }
 
     /**
-     * Specifies the type of nearby places that should be returned.
+     * The type of nearby places that should be returned. See
+     * https://developers.google.com/maps/documentation/places/web-service/supported_types
+     * for the list of supported types.
      *
      * @param placeType
      */
     @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING)
-    @SimpleProperty
+    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
     public void PlaceType(String placeType) {
         this.placeType = placeType.toUpperCase();
     }
@@ -109,14 +104,14 @@ public class GooglePlacesService extends PlacesWebService implements Callback<Pl
      * this location (e.g., call a service for nearby places) and likely raise an
      * event.
      *
-     * @param completeProbeUri, location
+     * @param location
      */
     @Override
-    public void onDataReceived(IJsonObject completeProbeUri, IJsonObject location) {
+    public void onLocationReceived(Location location) {
         System.out.println("location: " + location);
 
-        double lat = location.get(ProbeKeys.LocationKeys.LATITUDE).getAsDouble();
-        double lon = location.get(ProbeKeys.LocationKeys.LONGITUDE).getAsDouble();
+        double lat = location.getLat();
+		double lon = location.getLon();
 
         context = new GeoApiContext.Builder().apiKey(apiKey).build();
         LatLng myLocation = new LatLng(lat, lon);
@@ -132,8 +127,7 @@ public class GooglePlacesService extends PlacesWebService implements Callback<Pl
             onResult(request.await());
 
         } catch (IOException | InterruptedException | ApiException e) {
-            e.printStackTrace();
-            ServiceError(e.getMessage());
+            onFailure(e);
         }
     }
 
@@ -208,9 +202,5 @@ public class GooglePlacesService extends PlacesWebService implements Callback<Pl
         System.out.println(place + "\n");
 
         return place;
-    }
-
-    @Override
-    public void onDataCompleted(IJsonObject iJsonObject, JsonElement jsonElement) {
     }
 }

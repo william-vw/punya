@@ -26,32 +26,70 @@ public abstract class PlacesWebService extends LocationAwareWebService {
         super(container);
     }
 
+    /**
+     * Returns whether the component was run once to get location data and call the web service for nearby places.
+     *
+     * @return
+     */
     @SimpleProperty(description = "Whether the component was run once to get location data and call the web service for nearby places",
             category = PropertyCategory.BEHAVIOR)
     public boolean EnabledNearbyPlaces() { return enabledNearbyPlaces; }
 
+    /**
+     * Returns whether the component is enabled to periodically listen for location data,
+     * and call the web service for nearby places.
+     *
+     * @return
+     */
     @SimpleProperty(description = "Whether the component is enabled to periodically listen for location data, " +
             "and call the web service for nearby places",
             category = PropertyCategory.BEHAVIOR)
     public boolean EnabledScheduleNearbyPlaces() { return enabledScheduleNearbyPlaces; }
 
+    /**
+     * Returns the default interval (in seconds) between actions,
+     * where an action includes a location probe plus service call.
+     *
+     * @return
+     */
     @SimpleProperty(description = "The default interval (in seconds) between actions, where an action includes a location probe plus service call",
             category = PropertyCategory.BEHAVIOR)
     public int ScheduleNearbyPlacesInterval() { return locationProbeSensor.DefaultInterval(); }
 
+    /**
+     *  Specifies the default interval (in seconds) between actions,
+     *  where an action includes a location probe plus service call.
+     *
+     * @param interval
+     */
     @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "180")
     @SimpleProperty
     public void ScheduleNearbyPlacesInterval(int interval) { locationProbeSensor.DefaultInterval(interval); }
 
+    /**
+     * Enables the component to run once to get location data, call the web service for nearby places,
+     * and raise the corresponding events.
+     *
+     * @param enableNearbyPlaces
+     */
     @SimpleFunction(description = "Enable the component to run once to get location data, call the web service for nearby places, " +
             "and raise the corresponding events")
     public void EnableNearbyPlaces(boolean enableNearbyPlaces) {
-        if (checkInput()) {
+        if (testLocation != null) {
+            onLocationReceived(new Location(testLocation.getLat(), testLocation.getLon()));
+
+        } else if (checkInput()) {
             this.enabledNearbyPlaces = enableNearbyPlaces;
             locationProbeSensor.Enabled(enableNearbyPlaces);
         }
     }
 
+    /**
+     * Enables the component to periodically listen for location data,
+     * call the web service for nearby places, and raise the corresponding events.
+     *
+     * @param enableScheduleNearbyPlaces
+     */
     @SimpleFunction(description = "Enable the component to periodically listen for location data, " +
             "call the web service for nearby places, and raise the corresponding events")
     public void EnableScheduleNearbyPlaces(boolean enableScheduleNearbyPlaces) {
@@ -62,20 +100,19 @@ public abstract class PlacesWebService extends LocationAwareWebService {
     }
 
     /**
-     * Returns the radius around the user’s current location (meters) for which nearby places should be returned.
      *
      * @return nearbyRadius
      */
-    @SimpleProperty(description = "The radius around the user’s current location (meters) for which nearby places should be returned",
-            category = PropertyCategory.BEHAVIOR)
+    @SimpleProperty
     public int NearbyRadius() { return nearbyRadius; }
 
     /**
-     * Specifies the radius around the user’s current location (meters) for which nearby places should be returned.
+     * The radius around the user’s current location (meters) for which nearby places should be returned.
      *
      * @param nearbyRadius
      */
     @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "100")
+    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
     public void NearbyRadius(int nearbyRadius) { this.nearbyRadius = nearbyRadius; }
 
     @SimpleEvent(description = "Event indicating that nearby places have been received")

@@ -411,38 +411,47 @@ Component for GooglePlacesService
 : Specifies the API key.
 
 {:id="GooglePlacesService.DefaultDuration" .number} *DefaultDuration*
-: Specifies the default duration (in seconds) of each location probe scan.
+: The default duration (in seconds) of each location probe scan.
 
 {:id="GooglePlacesService.DefaultInterval" .number} *DefaultInterval*
-: Specifies the default interval (in seconds) between actions, where an action includes a location probe plus service call.
+: The default interval (in seconds) between actions, where an action includes a location probe plus service call.
 
 {:id="GooglePlacesService.EnabledNearbyPlaces" .boolean .ro .bo} *EnabledNearbyPlaces*
-: Whether the component was run once to get location data and call the web service for nearby places
+: Returns whether the component was run once to get location data and call the web service for nearby places.
 
 {:id="GooglePlacesService.EnabledScheduleNearbyPlaces" .boolean .ro .bo} *EnabledScheduleNearbyPlaces*
-: Whether the component is enabled to periodically listen for location data, and call the web service for nearby places
+: Returns whether the component is enabled to periodically listen for location data,
+ and call the web service for nearby places.
 
 {:id="GooglePlacesService.GoodEnoughAccuracy" .number} *GoodEnoughAccuracy*
-: Sets the good-enough-accuracy of the location data (0-100).
+: The good-enough-accuracy of the location data (0-100).
+ If the location accuracy lies below this threshold, then the online service will not be called.
 
-{:id="GooglePlacesService.MinimumLocationChange" .number .ro} *MinimumLocationChange*
-: Returns the minimal difference in location (in meters) compared to the prior location, before the service is called.
+{:id="GooglePlacesService.MinimumLocationChange" .number} *MinimumLocationChange*
+: The minimal difference in location (in meters) compared to the prior location, before the service is called.
  This avoids calling the online service for location-specific data when the user's location has not really changed much.
 
-{:id="GooglePlacesService.NearbyRadius" .number .ro} *NearbyRadius*
-: Returns the radius around the user’s current location (meters) for which nearby places should be returned.
+{:id="GooglePlacesService.NearbyRadius" .number} *NearbyRadius*
+: The radius around the user’s current location (meters) for which nearby places should be returned.
 
 {:id="GooglePlacesService.PlaceType" .text} *PlaceType*
-: Specifies the type of nearby places that should be returned.
+: The type of nearby places that should be returned. See
+ https://developers.google.com/maps/documentation/places/web-service/supported_types
+ for the list of supported types.
 
 {:id="GooglePlacesService.ScheduleNearbyPlacesInterval" .number} *ScheduleNearbyPlacesInterval*
-: The default interval (in seconds) between actions, where an action includes a location probe plus service call
+: Specifies the default interval (in seconds) between actions,
+  where an action includes a location probe plus service call.
+
+{:id="GooglePlacesService.TestLocation" .list} *TestLocation*
+: The location used for testing the component.
+ This location will be used to access the service instead of the user's actual location given by GPS or network.
 
 {:id="GooglePlacesService.UseGPS" .boolean} *UseGPS*
-: Specifies whether the location probe will use GPS or not.
+: Whether the location probe will use GPS or not.
 
 {:id="GooglePlacesService.UseNetwork" .boolean} *UseNetwork*
-: Specifies whether the location probe will use the network or not.
+: Whether the location probe will use the network or not.
 
 ### Events  {#GooglePlacesService-Events}
 
@@ -462,10 +471,12 @@ Component for GooglePlacesService
 {:.methods}
 
 {:id="GooglePlacesService.EnableNearbyPlaces" class="method"} <i/> EnableNearbyPlaces(*enableNearbyPlaces*{:.boolean})
-: Enable the component to run once to get location data, call the web service for nearby places, and raise the corresponding events
+: Enables the component to run once to get location data, call the web service for nearby places,
+ and raise the corresponding events.
 
 {:id="GooglePlacesService.EnableScheduleNearbyPlaces" class="method"} <i/> EnableScheduleNearbyPlaces(*enableScheduleNearbyPlaces*{:.boolean})
-: Enable the component to periodically listen for location data, call the web service for nearby places, and raise the corresponding events
+: Enables the component to periodically listen for location data,
+ call the web service for nearby places, and raise the corresponding events.
 
 ## LdpCoapClient  {#LdpCoapClient}
 

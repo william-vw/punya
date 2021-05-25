@@ -163,6 +163,7 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/smsProbe.png", images.smsHistory());
     bundledImages.put("images/batterySensor.png", images.batterySensor());
     bundledImages.put("images/pedometerSensor.png", images.pedometerSensor());
+    bundledImages.put("images/googlePlaces.png", images.googlePlacesService());
     bundledImages.put("images/survey.png", images.survey());
     bundledImages.put("images/info.png", images.telephonyInfo());
     bundledImages.put("images/soundEffect.png", images.soundeffect());

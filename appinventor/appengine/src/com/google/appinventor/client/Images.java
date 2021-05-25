@@ -708,7 +708,7 @@ public interface Images extends Resources {
    */
   @Source("com/google/appinventor/images/locationProbe.png")
   ImageResource locationProbeSensor();
-  
+
   /**
    * Designer palette item: PedometerSensor component
    */
@@ -732,8 +732,15 @@ public interface Images extends Resources {
    */
   @Source("com/google/appinventor/images/smsProbe.png")
   ImageResource smsHistory();
-  
-  
+
+
+  /**
+   * Designer palette item: GooglePlacesService Component
+   */
+  @Source("com/google/appinventor/images/googlePlaces.png")
+  ImageResource googlePlacesService();
+
+
   /**
    * Designer palette item: Timer component
    */
