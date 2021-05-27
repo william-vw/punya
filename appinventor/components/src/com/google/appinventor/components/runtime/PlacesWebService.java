@@ -70,17 +70,17 @@ public abstract class PlacesWebService extends LocationAwareWebService {
      * Enables the component to run once to get location data, call the web service for nearby places,
      * and raise the corresponding events.
      *
-     * @param enableNearbyPlaces
+     * @param enable
      */
     @SimpleFunction(description = "Enable the component to run once to get location data, call the web service for nearby places, " +
             "and raise the corresponding events")
-    public void EnableNearbyPlaces(boolean enableNearbyPlaces) {
+    public void EnableNearbyPlaces(boolean enable) {
         if (testLocation != null) {
             onLocationReceived(new Location(testLocation.getLat(), testLocation.getLon()));
 
         } else if (checkInput()) {
-            this.enabledNearbyPlaces = enableNearbyPlaces;
-            locationProbeSensor.Enabled(enableNearbyPlaces);
+            this.enabledNearbyPlaces = enable;
+            locationProbeSensor.Enabled(enable);
         }
     }
 

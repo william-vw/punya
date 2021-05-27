@@ -443,9 +443,8 @@ Component for GooglePlacesService
 : Specifies the default interval (in seconds) between actions,
   where an action includes a location probe plus service call.
 
-{:id="GooglePlacesService.TestLocation" .list} *TestLocation*
-: The location used for testing the component.
- This location will be used to access the service instead of the user's actual location given by GPS or network.
+{:id="GooglePlacesService.TestLocation" .list .ro .bo} *TestLocation*
+: Property for TestLocation
 
 {:id="GooglePlacesService.UseGPS" .boolean} *UseGPS*
 : Whether the location probe will use GPS or not.
@@ -460,9 +459,6 @@ Component for GooglePlacesService
 {:id="GooglePlacesService.NearbyPlacesReceived"} NearbyPlacesReceived(*nearbyPlaces*{:.list})
 : Event indicating that nearby places have been received
 
-{:id="GooglePlacesService.ServiceDataReceived"} ServiceDataReceived(*data*{:.text})
-: Event indicating that the service call has finished.
-
 {:id="GooglePlacesService.ServiceError"} ServiceError(*error*{:.text})
 : Event indicating an error during the service call.
 
@@ -470,13 +466,17 @@ Component for GooglePlacesService
 
 {:.methods}
 
-{:id="GooglePlacesService.EnableNearbyPlaces" class="method"} <i/> EnableNearbyPlaces(*enableNearbyPlaces*{:.boolean})
+{:id="GooglePlacesService.EnableNearbyPlaces" class="method"} <i/> EnableNearbyPlaces(*enable*{:.boolean})
 : Enables the component to run once to get location data, call the web service for nearby places,
  and raise the corresponding events.
 
 {:id="GooglePlacesService.EnableScheduleNearbyPlaces" class="method"} <i/> EnableScheduleNearbyPlaces(*enableScheduleNearbyPlaces*{:.boolean})
 : Enables the component to periodically listen for location data,
  call the web service for nearby places, and raise the corresponding events.
+
+{:id="GooglePlacesService.SetTestLocation" class="method"} <i/> SetTestLocation(*location*{:.list})
+: Set the location used for testing the component.
+ When set, this location will be used to access the service instead of the user's actual location given by GPS or network.
 
 ## LdpCoapClient  {#LdpCoapClient}
 

@@ -73,19 +73,19 @@ public class WebService extends AndroidNonvisibleComponent implements Component 
         });
     }
 
-    /**
-     * Event indicating that the service call has finished.
-     *
-     * @param data
-     */
-    @SimpleEvent(description = "Event indicating that the service call has finished")
-    public void ServiceDataReceived(final String data) {
-        final Component component = this;
-        // TODO unclear whether this is needed (done in LocationProbeSensor, not Web)
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                EventDispatcher.dispatchEvent(component, "ServiceDataReceived", data);
-            }
-        });
-    }
+//    /**
+//     * Event indicating that the service call has finished.
+//     *
+//     * @param data
+//     */
+//    @SimpleEvent(description = "Event indicating that the service call has finished")
+//    public void ServiceDataReceived(final String data) {
+//        final Component component = this;
+//        // TODO unclear whether this is needed (done in LocationProbeSensor, not Web)
+//        activity.runOnUiThread(new Runnable() {
+//            public void run() {
+//                EventDispatcher.dispatchEvent(component, "ServiceDataReceived", data);
+//            }
+//        });
+//    }
 }

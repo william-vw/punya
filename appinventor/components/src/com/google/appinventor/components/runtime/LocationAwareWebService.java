@@ -140,24 +140,26 @@ public abstract class LocationAwareWebService extends WebService implements Prob
      */
     @SimpleProperty
     public YailList TestLocation() {
-        return YailList.makeList(new Double[] { testLocation.getLat(), testLocation.getLon() });
+        if (testLocation != null)
+            return YailList.makeList(new Double[] { testLocation.getLat(), testLocation.getLon() });
+        else
+            return null;
     }
 
     /**
-     * The location used for testing the component.
-     * This location will be used to access the service instead of the user's actual location given by GPS or network.
+     * Set the location used for testing the component.
+     * When set, this location will be used to access the service instead of the user's actual location given by GPS or network.
      *
-     * @param testLocation
+     * @param location
      */
-    @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "0")
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public void TestLocation(YailList testLocation) {
-        if (testLocation.length() == 2) {
-            if (testLocation.get(0) instanceof Number &&
-                testLocation.get(1) instanceof Number) {
+    @SimpleFunction
+    public void SetTestLocation(YailList location) {
+        if (location.length() == 2) {
+            if (location.get(0) instanceof Number &&
+                location.get(1) instanceof Number) {
 
-                double lat = ((Number) testLocation.get(0)).doubleValue();
-                double lon = ((Number) testLocation.get(1)).doubleValue();
+                double lat = ((Number) location.get(0)).doubleValue();
+                double lon = ((Number) location.get(1)).doubleValue();
 
                 this.testLocation = new Location(lat, lon);
                 return;

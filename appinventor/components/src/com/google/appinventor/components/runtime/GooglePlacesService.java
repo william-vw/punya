@@ -90,12 +90,12 @@ public class GooglePlacesService extends PlacesWebService implements Callback<Pl
      * https://developers.google.com/maps/documentation/places/web-service/supported_types
      * for the list of supported types.
      *
-     * @param placeType
+     * @param type
      */
     @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING)
     @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public void PlaceType(String placeType) {
-        this.placeType = placeType.toUpperCase();
+    public void PlaceType(String type) {
+        this.placeType = type.toUpperCase();
     }
 
     /**
